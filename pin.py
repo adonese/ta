@@ -34,8 +34,3 @@ class PinBlock:
         d = DES.new(decrypted_working_key)
         pin_block = d.encrypt(bytes.fromhex(clear_pin_block))
         return pin_block.hex()
-
-
-if __name__ == "__main__":
-    p = PinBlock("0000", "9222191000000644401", "926af4bdbc54929b", "ABCDEF0123456789")
-    print(p.encrypted_pin_block())
