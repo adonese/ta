@@ -1,0 +1,36 @@
+2019-05-07 13:42:41,063 INFO daemonizing the supervisord process
+2019-05-07 13:42:41,065 INFO supervisord started with pid 14440
+2019-05-07 13:42:42,068 INFO spawned: 'ta' with pid 14445
+2019-05-07 13:42:42,330 INFO exited: ta (exit status 1; not expected)
+2019-05-07 13:42:43,334 INFO spawned: 'ta' with pid 14455
+2019-05-07 13:42:43,604 INFO exited: ta (exit status 1; not expected)
+2019-05-07 13:42:45,609 INFO spawned: 'ta' with pid 14470
+2019-05-07 13:42:45,864 INFO exited: ta (exit status 1; not expected)
+2019-05-07 13:42:48,870 INFO spawned: 'ta' with pid 14482
+2019-05-07 13:42:49,129 INFO exited: ta (exit status 1; not expected)
+2019-05-07 13:42:50,131 INFO gave up: ta entered FATAL state, too many start retries too quickly
+2019-05-07 13:52:27,567 CRIT Server 'inet_http_server' running without any HTTP authentication checking
+2019-05-07 13:52:27,569 INFO daemonizing the supervisord process
+2019-05-07 13:52:27,570 INFO supervisord started with pid 16677
+2019-05-07 13:52:28,574 INFO spawned: 'ta' with pid 16683
+2019-05-07 13:52:28,835 INFO exited: ta (exit status 1; not expected)
+2019-05-07 13:52:29,838 INFO spawned: 'ta' with pid 16685
+2019-05-07 13:52:30,096 INFO exited: ta (exit status 1; not expected)
+2019-05-07 13:52:32,101 INFO spawned: 'ta' with pid 16691
+2019-05-07 13:52:32,361 INFO exited: ta (exit status 1; not expected)
+2019-05-07 13:52:35,892 INFO spawned: 'ta' with pid 16698
+2019-05-07 13:52:36,145 INFO exited: ta (exit status 1; not expected)
+2019-05-07 13:52:37,146 INFO gave up: ta entered FATAL state, too many start retries too quickly
+2019-05-14 12:07:36,096 INFO RPC interface 'supervisor' initialized
+2019-05-14 12:07:36,109 CRIT Server 'inet_http_server' running without any HTTP authentication checking
+2019-05-14 12:07:36,111 INFO daemonizing the supervisord process
+2019-05-14 12:07:36,112 INFO supervisord started with pid 31995
+2019-05-14 12:07:37,116 INFO spawned: 'ta' with pid 32001
+2019-05-14 12:07:37,450 INFO exited: ta (exit status 1; not expected)
+2019-05-14 12:07:38,454 INFO spawned: 'ta' with pid 32018
+2019-05-14 12:07:38,708 INFO exited: ta (exit status 1; not expected)
+2019-05-14 12:07:40,713 INFO spawned: 'ta' with pid 32030
+2019-05-14 12:07:40,966 INFO exited: ta (exit status 1; not expected)
+2019-05-14 12:07:43,973 INFO spawned: 'ta' with pid 32052
+2019-05-14 12:07:44,234 INFO exited: ta (exit status 1; not expected)
+2019-05-14 12:07:45,236 INFO gave up: ta entered FATAL state, too many start retries too quickly

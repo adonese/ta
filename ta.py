@@ -4,7 +4,6 @@ import uvicorn
 from pin import PinBlock
 from utils import http_errors_or_ok
 
-import gunicorn
 
 app = Starlette(debug=True)
 
