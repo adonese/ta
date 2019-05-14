@@ -7,6 +7,7 @@ pkg-resources==0.0.0
 pycrypto==2.6.1
 starlette==0.11.4
 supervisor==4.0.2
+typesystem==0.2.2
 uvicorn==0.7.1
 uvloop==0.12.2
 websockets==7.0
