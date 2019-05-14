@@ -13,8 +13,8 @@ app = Starlette(debug=True)
 async def pin_service(request):
     b = await request.json()
     errors = RequestFields.validate_or_error(b)
-
-    if errors:
+ 
+    if errors.error:
         return JSONResponse({"error": errors}, 400, media_type="application/json")
     pin_calculation = PinBlock(b.get("pin"), b.get("pan"), b.get("twk"), b.get("tmk"))
     pin = pin_calculation.encrypted_pin_block()
