@@ -68,3 +68,7 @@ class http_errors_or_ok:
             return True
         return False
 
+def wants_json(request):
+    if request.headers["content-type"] == "application/json":
+        return True
+    return False

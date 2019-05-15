@@ -3,7 +3,7 @@ from starlette.responses import JSONResponse, RedirectResponse
 import uvicorn
 from pin import PinBlock
 from utils import http_errors_or_ok
-from utils import RequestFields
+from utils import RequestFields, wants_json
 from starlette.templating import Jinja2Templates
 import typesystem
 
@@ -13,21 +13,6 @@ templates = Jinja2Templates(directory="templates")
 
 app = Starlette(debug=True)
 
-@app.route("/pin", methods=["POST"])
-@app.route("/calculate_pin", methods=["POST"])
-async def pin_service(request):
-    try:
-        b = await request.json()
-    except Exception as e:
-        return JSONResponse({"message": "Empty or malformed Json"}, 400, media_type="application/json")
-    data, errors = RequestFields.validate_or_error(b)
- 
-    if errors:
-        return JSONResponse(dict(errors), 400, media_type="application/json")
-    pin_calculation = PinBlock(b.get("pin"), b.get("pan"), b.get("twk"), b.get("tmk"))
-    pin = pin_calculation.encrypted_pin_block()
-    return JSONResponse({"pin_block": pin}, 200, media_type="application/json")
-
 @app.route("/", methods=["GET"])
 async def homepage(request):
     form = forms.Form(RequestFields)
@@ -36,6 +21,19 @@ async def homepage(request):
 
 @app.route("/", methods=["POST"])
 async def submit(request):
+    if wants_json(request):
+        try:
+            b = await request.json()
+        except Exception as e:
+            return JSONResponse({"message": "Empty or malformed Json"}, 400, media_type="application/json")
+        data, errors = RequestFields.validate_or_error(b)
+    
+        if errors:
+            return JSONResponse(dict(errors), 400, media_type="application/json")
+        pin_calculation = PinBlock(b.get("pin"), b.get("pan"), b.get("twk"), b.get("tmk"))
+        pin = pin_calculation.encrypted_pin_block()
+        return JSONResponse({"pin_block": pin}, 200, media_type="application/json")
+
     form = await request.form()
     data, errors = RequestFields.validate_or_error(form)
     print(errors)
