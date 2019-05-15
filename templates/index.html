@@ -7,10 +7,18 @@
 <h3>About TA</h3>
 <p class="lead">
 	TA is an online PIN block calculation service. It uses DES encryption as it is the only supported
-	 encryption algorithm used by EBS. You can hack into the code and add other encryption methods if you would like, it is so simple. <a href="github.com/adonese/ta">Start Now!</a>
+	 encryption algorithm used by EBS. You can hack into the code and add other encryption methods if you would like, it is so simple. <a href="http://github.com/adonese/ta">Start Now!</a>
 </p>
 	
 <hr>
+{% if error_code %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+		The submitted <strong>Working and/or Master Key</strong> are not Hex. Code: {{error_code}}
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			  </button>
+	  </div>
+{% endif%}
 		<div class="booking-form">
 			<h4>Calculate PIN block</h4>
 			<form method="POST">

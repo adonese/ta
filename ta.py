@@ -2,7 +2,7 @@ from starlette.applications import Starlette
 from starlette.responses import JSONResponse, RedirectResponse
 import uvicorn
 from pin import PinBlock
-from utils import http_errors_or_ok
+from utils import http_errors_or_ok, is_hex
 from utils import RequestFields, wants_json
 from starlette.templating import Jinja2Templates
 import typesystem
@@ -30,6 +30,9 @@ async def submit(request):
     
         if errors:
             return JSONResponse(dict(errors), 400, media_type="application/json")
+        if not is_hex(data.get("twk")) or not is_hex(data.get("tmk")):
+            return JSONResponse({"error": "tmk and twk should be hex strings"}, 400, media_type="application/json")
+
         pin_calculation = PinBlock(b.get("pin"), b.get("pan"), b.get("twk"), b.get("tmk"))
         pin = pin_calculation.encrypted_pin_block()
         return JSONResponse({"pin_block": pin}, 200, media_type="application/json")
@@ -42,15 +45,16 @@ async def submit(request):
         context = {"request": request, "form": form}
         return templates.TemplateResponse("index.html", context)
 
+    if not is_hex(data.get("twk")) or not is_hex(data.get("tmk")):
+        form = forms.Form(RequestFields)
+        context = {"request": request, "error_code":"not_hex", "form": form}
+        return templates.TemplateResponse("index.html", context)
+
     pin_calculation = PinBlock(form.get("pin"), form.get("pan"), form.get("twk"), form.get("tmk"))
     pin = pin_calculation.encrypted_pin_block()       
     context = {"request": request, "form": form, "pin": pin}
     return templates.TemplateResponse("success.html", context)
 
-@app.route("/success", methods=["GET"])
-async def success(request):
-    context = {"request": request}
-    return templates.TemplateResponse("success.html", context)
 
 
 if __name__ == "__main__":

@@ -72,3 +72,12 @@ def wants_json(request):
     if request.headers["content-type"] == "application/json":
         return True
     return False
+
+#TODO add this to typesystem when they support custom validator fields
+def is_hex(hex_string: str) -> (bool):
+    try:
+        bytes.fromhex(hex_string)
+        return True
+    except Exception as e:
+        return False
+
