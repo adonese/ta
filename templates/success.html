@@ -1,19 +1,13 @@
-<!doctype html>
-<html lang="en">
+{%extends "base.html"%}
 
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description" content="">
-	<meta name="author" content="">
+{%block title %} Results {%endblock%}
 
-	<title>PIN Block | TA</title>
-</head>
+{% block content %}
+<main role="main" class="container">
 
-<body>
+	<p>PIN Block is: <b>{{pin}}</b></p>
+	
+	
 
-    <h1>Success!</h1>
-    <p>PIN Block is: <b>{{pin}}</b></p>
-</body>
-
-</html>
+</main>
+{%endblock%}
