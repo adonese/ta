@@ -4,10 +4,10 @@ return corresponding http errors
 import typesystem
 
 class RequestFields(typesystem.Schema):
-    pin = typesystem.String(max_length=4, min_length=4, allow_blank=False)
-    pan = typesystem.String(max_length=19, min_length=16)
-    twk = typesystem.String(max_length=16, min_length=16)
-    tmk = typesystem.String(max_length=16, min_length=16)
+    pin = typesystem.String(title="PIN", max_length=4, min_length=4)
+    pan = typesystem.String(title="PAN", max_length=19, min_length=16)
+    twk = typesystem.String(title="Working Key", max_length=16, min_length=16)
+    tmk = typesystem.String(title="Master Key", max_length=16, min_length=16)
 
 class http_errors_or_ok:
     """

@@ -1,18 +1,16 @@
-<!doctype html>
-<html lang="en">
+{%extends "base.html" %}
+{% block title %}Pin Block Service
+{%endblock%}
 
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description" content="">
-	<meta name="author" content="">
-
-	<title>PIN Block | TA</title>
-</head>
-
-<body>
-
-	<main role="main" class="container">
+{%block content %}
+<main role="main" class="container">
+<h3>About TA</h3>
+<p class="lead">
+	TA is an online PIN block calculation service. It uses DES encryption as it is the only supported
+	 encryption algorithm used by EBS. You can hack into the code and add other encryption methods if you would like, it is so simple. <a href="github.com/adonese/ta">Start Now!</a>
+</p>
+	
+<hr>
 		<div class="booking-form">
 			<h4>Calculate PIN block</h4>
 			<form method="POST">
@@ -23,6 +21,8 @@
 			</form>
 		</div>
 	</main>
-</body>
+{%endblock%}
 
-</html>
+</br></br>
+
+{%block footer %} {{super()}}{%endblock%}
