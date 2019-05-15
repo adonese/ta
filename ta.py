@@ -1,25 +1,25 @@
 from starlette.applications import Starlette
 from starlette.responses import JSONResponse, RedirectResponse
+from starlette.routing import Mount, Route
 import uvicorn
 from pin import PinBlock
 from utils import http_errors_or_ok, is_hex
 from utils import RequestFields, wants_json
 from starlette.templating import Jinja2Templates
+from starlette.staticfiles import StaticFiles
 import typesystem
 
 # templates dir
 forms = typesystem.Jinja2Forms(package="bootstrap4")
 templates = Jinja2Templates(directory="templates")
+statics = StaticFiles(directory="statics", packages=["bootstrap4"])
 
-app = Starlette(debug=True)
 
-@app.route("/", methods=["GET"])
 async def homepage(request):
     form = forms.Form(RequestFields)
     context = {"request": request, "form": form}
     return templates.TemplateResponse("index.html", context)
 
-@app.route("/", methods=["POST"])
 async def submit(request):
     if wants_json(request):
         try:
@@ -55,6 +55,16 @@ async def submit(request):
     context = {"request": request, "form": form, "pin": pin}
     return templates.TemplateResponse("success.html", context)
 
+
+
+app = Starlette(
+    debug=True,
+    routes=[
+        Route("/", homepage, methods=["GET"]),
+        Route("/", submit, methods=["POST"]),
+        Mount("/statics", statics, name="static"),
+    ],
+)
 
 
 if __name__ == "__main__":

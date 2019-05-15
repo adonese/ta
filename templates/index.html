@@ -28,9 +28,37 @@
 				</div>
 			</form>
 		</div>
+
+		<br><br>
+		<h3>How it works</h3>
+		Pin block calculation is very simple actually. You need to submit these info in the form.
+		<ol>
+			<li>PIN: the pin you want to calculate its pin block (e.g., your 0000)</li>
+			<li>PAN: the (16, 19) digits of your financial card (be it debit, e-purse, etc)</li>
+			<li>Terminal Working Key: hex string. You have to request it from EBS (you can use our online service, noebs, as well: <a href="beta.soluspay.net/api/swagger/index.html">Try it now</a></li>
+			<li>Terminal Master Key: hex string. You can get it from EBS when you enter their tests. And you can use this one: <strong>ABCDEF0123456789</strong></li>
+		</ol>
+		And voila! You can verify your pin block to be correct now!
+<br><br><br>
+		<h3>API First!</h3>
+		We love REST and we always ensure that our contents are API accessible. It helps developers as much as it helps us, too.<br>
+		You can interact with our API the same way as you would with the online form. Only though you would need to set the `content-type` of your request to `application/json`. See this sample cURL snippet:
+		<br><br>
+		<code>
+			$ curl -X POST -H "Content-Type: application/json" https://beta.soluspay.net/pin\<br>
+			 -d '{"pin": "0000", "pan": "9222123456871234", "twk": "123456789edcfdcf", "tmk": "abcdef0123456789"}'
+		</code>
+		<h4>API request fields</h4>
+		There is a gotcha here, the request paramaters.
+		<ul>
+				<li><strong>pin</strong>: the pin you want to calculate its pin block (e.g., your 0000)</li>
+				<li><strong>pan</strong>: the (16, 19) digits of your financial card (be it debit, e-purse, etc)</li>
+				<li><strong>twk</strong>: hex string. You have to request it from EBS (you can use our online service, noebs, as well: <a href="beta.soluspay.net/api/swagger/index.html">Try it now</a></li>
+				<li><strong>tmk</strong>: hex string. You can get it from EBS when you enter their tests. And you can use this one: <strong>ABCDEF0123456789</strong></li>
+	
+		</ul>
+		And that's all you want to do!
 	</main>
+	
 {%endblock%}
-
-<br><br>
-
 {%block footer %} {{super()}}{%endblock%}
