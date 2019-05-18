@@ -63,7 +63,7 @@ app = Starlette(
     routes=[
         Route("/", homepage, methods=["GET"]),
         Route("/", submit, methods=["POST"]),
-        Mount(f"{settings.ABSOLUTE_URL}/statics", statics, name="static"),
+        Mount(f"/pin/statics", statics, name="static"),
     ],
 )
 
