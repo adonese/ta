@@ -8,6 +8,7 @@ from utils import RequestFields, wants_json
 from starlette.templating import Jinja2Templates
 from starlette.staticfiles import StaticFiles
 import typesystem
+import settings
 
 # templates dir
 forms = typesystem.Jinja2Forms(package="bootstrap4")
@@ -62,7 +63,7 @@ app = Starlette(
     routes=[
         Route("/", homepage, methods=["GET"]),
         Route("/", submit, methods=["POST"]),
-        Mount("/statics", statics, name="static"),
+        Mount(f"{settings.ABSOLUTE_URL}/statics", statics, name="static"),
     ],
 )
 
