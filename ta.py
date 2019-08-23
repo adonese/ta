@@ -12,7 +12,7 @@ import uuid
 import pickle
 import datetime
 import redis
-import screen
+import sqreen
 import json
 
 # templates dir
@@ -20,7 +20,7 @@ forms = typesystem.Jinja2Forms(package="bootstrap4")
 templates = Jinja2Templates(directory="templates")
 statics = StaticFiles(directory="statics", packages=["bootstrap4"])
 
-screen.start()
+sqreen.start()
 
 async def homepage(request):
     # get the cookie. If it is not found, then set a new cookie
