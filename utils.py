@@ -2,6 +2,7 @@
 return corresponding http errors
 """
 import typesystem
+import uuid 
 
 class RequestFields(typesystem.Schema):
     pin = typesystem.String(title="PIN", max_length=4, min_length=4)
@@ -81,3 +82,11 @@ def is_hex(hex_string: str) -> (bool):
     except Exception as e:
         return False
 
+
+def get_cookies(request)->str:
+    id = request.cookies.get("my_cookie")
+    
+    if not id:
+        # the user is not registered
+        id = str(uuid.uuid4())
+    return id

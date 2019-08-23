@@ -1,24 +1,43 @@
 from starlette.applications import Starlette
-from starlette.responses import JSONResponse, RedirectResponse
+from starlette.responses import JSONResponse, RedirectResponse, Response
 from starlette.routing import Mount, Route
 import uvicorn
 from pin import PinBlock
 from utils import http_errors_or_ok, is_hex
-from utils import RequestFields, wants_json
+from utils import RequestFields, wants_json, get_cookies
 from starlette.templating import Jinja2Templates
 from starlette.staticfiles import StaticFiles
 import typesystem
+import uuid
+import pickle
+import datetime
+import redis
+import screen
+import json
 
 # templates dir
 forms = typesystem.Jinja2Forms(package="bootstrap4")
 templates = Jinja2Templates(directory="templates")
 statics = StaticFiles(directory="statics", packages=["bootstrap4"])
 
+screen.start()
 
 async def homepage(request):
-    form = forms.Form(RequestFields)
-    context = {"request": request, "form": form}
-    return templates.TemplateResponse("index.html", context)
+    # get the cookie. If it is not found, then set a new cookie
+    # for this particular user (so they can retrieve their data later)
+
+    
+    form = await request.form()
+    id = get_cookies(request)
+    print("the uuid is: %s", id)
+    r = redis.Redis()
+    res = r.lrange(id, 0, -1)
+    print("the response is: %s", res)
+    context = {"request": request, "previous_results": res, "form": form}
+    
+    response = templates.TemplateResponse("index.html", context)
+    response.set_cookie("my_cookie", id)
+    return response
 
 async def submit(request):
     if wants_json(request):
@@ -51,8 +70,27 @@ async def submit(request):
         return templates.TemplateResponse("index.html", context)
 
     pin_calculation = PinBlock(form.get("pin"), form.get("pan"), form.get("twk"), form.get("tmk"))
-    pin = pin_calculation.encrypted_pin_block()       
-    context = {"request": request, "form": form, "pin": pin}
+    pin = pin_calculation.encrypted_pin_block()
+
+    # also add the previous fields to the context, so we can include them in the results
+    # construct the results dict that you want to save
+    history = {"pin": pin,
+     "pan":form.get("pan"), "twk": form.get("twk"), "tmk": form.get("tmk"), "time": str(datetime.datetime.now())}
+    
+    redis_data = pickle.dumps(history)
+
+    id = get_cookies(request)
+    r = redis.Redis()
+    er = r.lpush(id, redis_data)
+    all_items = r.lrange(id, 0, -1)
+    # dump all all_items
+    previous_results = []
+    for item in all_items:
+        res = pickle.loads(item)
+        previous_results.append(res)
+
+    print("the previous results are here", res)
+    context = {"request": request, "form": form, "pin": pin, "previous_results": previous_results}
     return templates.TemplateResponse("success.html", context)
 
 
@@ -62,10 +100,10 @@ app = Starlette(
     routes=[
         Route("/", homepage, methods=["GET"]),
         Route("/", submit, methods=["POST"]),
-        Mount(f"/statics", statics, name="static"),
+        Mount("/statics", statics, name="static"),
     ],
 )
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8080)
+    uvicorn.run(app, host="0.0.0.0", port=8008)

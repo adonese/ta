@@ -1,64 +1,81 @@
 {%extends "base.html" %}
 {% block title %}Pin Block Service
-{%endblock%}
+{% endblock %}
 
 {%block content %}
 <main role="main" class="container">
-<h3>About TA</h3>
-<p class="lead">
-	TA is an online PIN block calculation service. It uses DES encryption as it is the only supported
-	 encryption algorithm used by EBS. You can hack into the code and add other encryption methods if you would like, it is so simple. <a href="http://github.com/adonese/ta">Start Now!</a>
-</p>
-	
-<hr>
-{% if error_code %}
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	<h3>About TA</h3>
+	<p class="lead">
+		TA is an online PIN block calculation service. It uses DES encryption as it is the only supported
+		encryption algorithm used by EBS. You can hack into the code and add other encryption methods if you would like,
+		it is so simple. <a href="http://github.com/adonese/ta">Start Now!</a>
+	</p>
+
+	<hr>
+	{% if error_code %}
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
 		The submitted <strong>Working and/or Master Key</strong> are not Hex. Code: {{error_code}}
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			  </button>
-	  </div>
-{% endif%}
-		<div class="booking-form">
-			<h4>Calculate PIN block</h4>
-			<form method="POST">
-				{{ form }}
-				<div class="submit-controls">
-					<button type="submit" class="btn btn-primary">Submit</button>
-				</div>
-			</form>
-		</div>
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	{% endif %}
+	<div class="booking-form">
+		<h4>Calculate PIN block</h4>
+		<form method="POST">
+			{{ form }}
+			<div class="submit-controls">
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</div>
+		</form>
+	</div>
 
-		<br><br>
-		<h3>How it works</h3>
-		Pin block calculation is very simple actually. You need to submit these info in the form.
-		<ol>
-			<li>PIN: the pin you want to calculate its pin block (e.g., your 0000)</li>
-			<li>PAN: the (16, 19) digits of your financial card (be it debit, e-purse, etc)</li>
-			<li>Terminal Working Key: hex string. You have to request it from EBS (you can use our online service, noebs, as well: <a href="beta.soluspay.net/api/swagger/index.html">Try it now</a></li>
-			<li>Terminal Master Key: hex string. You can get it from EBS when you enter their tests. And you can use this one: <strong>ABCDEF0123456789</strong></li>
-		</ol>
-		And voila! You can verify your pin block to be correct now!
-<br><br><br>
-		<h3>API First!</h3>
-		We love REST and we always ensure that our contents are API accessible. It helps developers as much as it helps us, too.<br>
-		You can interact with our API the same way as you would with the online form. Only though you would need to set the `content-type` of your request to `application/json`. See this sample cURL snippet:
-		<br><br>
-		<code>
+	<br><br>
+
+	<h2>Your previous results!</h2>
+	<ol>
+	{% for res in previous_results %}
+		<li>time: {{res["time"]}}, pin: {{res["pin"]}}, pan: {{res["pan"]}}</li>
+		{{res["pin"]}}
+	{% endfor %}
+
+	{{ previous_results }}
+</ol>
+	<h3>How it works</h3>
+	Pin block calculation is very simple actually. You need to submit these info in the form.
+	<ol>
+		<li>PIN: the pin you want to calculate its pin block (e.g., your 0000)</li>
+		<li>PAN: the (16, 19) digits of your financial card (be it debit, e-purse, etc)</li>
+		<li>Terminal Working Key: hex string. You have to request it from EBS (you can use our online service, noebs, as
+			well: <a href="beta.soluspay.net/api/swagger/index.html">Try it now</a></li>
+		<li>Terminal Master Key: hex string. You can get it from EBS when you enter their tests. And you can use this
+			one: <strong>ABCDEF0123456789</strong></li>
+	</ol>
+	And voila! You can verify your pin block to be correct now!
+	<br><br><br>
+	<h3>API First!</h3>
+	We love REST and we always ensure that our contents are API accessible. It helps developers as much as it helps us,
+	too.<br>
+	You can interact with our API the same way as you would with the online form. Only though you would need to set the
+	`content-type` of your request to `application/json`. See this sample cURL snippet:
+	<br><br>
+	<code>
 			$ curl -X POST -H "Content-Type: application/json" https://beta.soluspay.net/pin\<br>
 			 -d '{"pin": "0000", "pan": "9222123456871234", "twk": "123456789edcfdcf", "tmk": "abcdef0123456789"}'
 		</code>
-		<h4>API request fields</h4>
-		There is a gotcha here, the request paramaters.
-		<ul>
-				<li><strong>pin</strong>: the pin you want to calculate its pin block (e.g., your 0000)</li>
-				<li><strong>pan</strong>: the (16, 19) digits of your financial card (be it debit, e-purse, etc)</li>
-				<li><strong>twk</strong>: hex string. You have to request it from EBS (you can use our online service, noebs, as well: <a href="beta.soluspay.net/api/swagger/index.html">Try it now</a></li>
-				<li><strong>tmk</strong>: hex string. You can get it from EBS when you enter their tests. And you can use this one: <strong>ABCDEF0123456789</strong></li>
-	
-		</ul>
-		And that's all you want to do!
-	</main>
-	
+	<h4>API request fields</h4>
+	There is a gotcha here, the request paramaters.
+	<ul>
+		<li><strong>pin</strong>: the pin you want to calculate its pin block (e.g., your 0000)</li>
+		<li><strong>pan</strong>: the (16, 19) digits of your financial card (be it debit, e-purse, etc)</li>
+		<li><strong>twk</strong>: hex string. You have to request it from EBS (you can use our online service, noebs, as
+			well: <a href="beta.soluspay.net/api/swagger/index.html">Try it now</a></li>
+		<li><strong>tmk</strong>: hex string. You can get it from EBS when you enter their tests. And you can use this
+			one: <strong>ABCDEF0123456789</strong></li>
+
+	</ul>
+	And that's all you want to do!
+</main>
+
 {%endblock%}
 {%block footer %} {{super()}}{%endblock%}
