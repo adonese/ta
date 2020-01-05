@@ -20,21 +20,15 @@ forms = typesystem.Jinja2Forms(package="bootstrap4")
 templates = Jinja2Templates(directory="templates")
 statics = StaticFiles(directory="statics", packages=["bootstrap4"])
 
-sqreen.start()
-
 async def homepage(request):
     # get the cookie. If it is not found, then set a new cookie
     # for this particular user (so they can retrieve their data later)
 
     
-    form = await request.form()
-    id = get_cookies(request)
-    print("the uuid is: %s", id)
-    r = redis.Redis()
-    res = r.lrange(id, 0, -1)
-    print("the response is: %s", res)
-    context = {"request": request, "previous_results": res, "form": form}
-    
+    # data = await request.form()
+    form = forms.Form(RequestFields)
+    context = {"request": request, "form": form}
+
     response = templates.TemplateResponse("index.html", context)
     response.set_cookie("my_cookie", id)
     return response
@@ -72,25 +66,9 @@ async def submit(request):
     pin_calculation = PinBlock(form.get("pin"), form.get("pan"), form.get("twk"), form.get("tmk"))
     pin = pin_calculation.encrypted_pin_block()
 
-    # also add the previous fields to the context, so we can include them in the results
-    # construct the results dict that you want to save
-    history = {"pin": pin,
-     "pan":form.get("pan"), "twk": form.get("twk"), "tmk": form.get("tmk"), "time": str(datetime.datetime.now())}
-    
-    redis_data = pickle.dumps(history)
-
     id = get_cookies(request)
-    r = redis.Redis()
-    er = r.lpush(id, redis_data)
-    all_items = r.lrange(id, 0, -1)
-    # dump all all_items
-    previous_results = []
-    for item in all_items:
-        res = pickle.loads(item)
-        previous_results.append(res)
 
-    print("the previous results are here", res)
-    context = {"request": request, "form": form, "pin": pin, "previous_results": previous_results}
+    context = {"request": request, "form": form, "pin": pin}
     return templates.TemplateResponse("success.html", context)
 
 

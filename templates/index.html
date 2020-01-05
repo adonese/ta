@@ -34,13 +34,13 @@
 
 	<h2>Your previous results!</h2>
 	<ol>
-	{% for res in previous_results %}
+		{% for res in previous_results %}
 		<li>time: {{res["time"]}}, pin: {{res["pin"]}}, pan: {{res["pan"]}}</li>
 		{{res["pin"]}}
-	{% endfor %}
+		{% endfor %}
 
-	{{ previous_results }}
-</ol>
+		{{ previous_results }}
+	</ol>
 	<h3>How it works</h3>
 	Pin block calculation is very simple actually. You need to submit these info in the form.
 	<ol>
