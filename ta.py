@@ -11,8 +11,6 @@ import typesystem
 import uuid
 import pickle
 import datetime
-import redis
-import sqreen
 import json
 
 # templates dir
