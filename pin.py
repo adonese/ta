@@ -36,25 +36,25 @@ class PinBlock:
         return pin_block.hex()
 
 
-# if __name__ == "__main__":
-#     #pan = "6392560017624665"
-#     #pin = "2506"
-#     #pan = "9222081700176714465"
-#     #pin = "0000"
-#     #twk = "a9eb3c0c929ddcae"
+if __name__ == "__main__":
+    #pan = "6392560017624665"
+    #pin = "2506"
+    #pan = "9222081700176714465"
+    #pin = "0000"
+    #twk = "a9eb3c0c929ddcae"
 
 
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument("-pan")
-#     parser.add_argument("-pin")
-#     parser.add_argument("-tmk", default="E6FBFD2C914A155D")
-#     parser.add_argument("-twk")
-#     args = parser.parse_args()
-#     pin = args.pin
-#     pan = args.pan
-#     twk = args.twk
-#     tmk = args.tmk
-#     print(pin, pan, twk, tmk)
-#     api = PinBlock(pin, pan, twk, tmk)
-#     print(api.encrypted_pin_block())
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-pan")
+    parser.add_argument("-pin")
+    parser.add_argument("-tmk", default="E6FBFD2C914A155D")
+    parser.add_argument("-twk")
+    args = parser.parse_args()
+    pin = args.pin
+    pan = args.pan
+    twk = args.twk
+    tmk = args.tmk
+    print(pin, pan, twk, tmk)
+    api = PinBlock(pin, pan, twk, tmk)
+    print(api.encrypted_pin_block())
     
