@@ -4,6 +4,7 @@ RUN mkdir /install
 WORKDIR /install
 
 COPY requirements.txt /requirements.txt
+RUN apk add python3-dev alpine-sdk
 RUN pip install --install-option="--prefix=/install" -r /requirements.txt
 
 FROM base
