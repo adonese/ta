@@ -9,10 +9,11 @@ MarkupSafe
 meld3
 pycrypto
 six
-starlette4
+starlette
 supervisor
 typed-ast
 typesystem
 typing-extensions
 uvicorn
 uvloop
+python-multipart
