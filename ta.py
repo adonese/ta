@@ -70,13 +70,26 @@ async def submit(request):
     return templates.TemplateResponse("success.html", context)
 
 
+async def reverse(request):
+    
+    try:
+        b = await request.json()
+    except Exception as e:
+        return JSONResponse({"message": "Empty or malformed Json"}, 400, media_type="application/json")
+
+    pin_calculation = PinBlock(pin="3232", pan=b.get("pan"), twk=b.get("twk"), tmk=b.get("tmk"))
+    pin = pin_calculation.reverse_pin(b.get("pinblock"))
+    return JSONResponse({"pin": pin}, 200, media_type="application/json")
+
 
 app = Starlette(
     debug=True,
     routes=[
         Route("/", homepage, methods=["GET"]),
         Route("/", submit, methods=["POST"]),
+        Route("/reverse", reverse, methods=["POST"]),
         Mount("/statics", statics, name="static"),
+
     ],
 )
 
