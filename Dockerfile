@@ -12,5 +12,5 @@ COPY --from=builder /install /usr/local
 COPY . /app
 WORKDIR /app
 
-CMD ["uvicorn", "--port=8083","--workers=1", "ta:app"]
-EXPOSE 8082
+CMD ["uvicorn", "--port","8008", "--host", "0.0.0.0", "ta:app"]
+EXPOSE 8008
