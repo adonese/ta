@@ -91,14 +91,6 @@ def wants_json(request):
         return True
     return False
 
-#TODO add this to typesystem when they support custom validator fields
-def is_hex(hex_string: str) -> (bool):
-    try:
-        bytes.fromhex(hex_string)
-        return True
-    except Exception as e:
-        return False
-
 
 def get_cookies(request)->str:
     id = request.cookies.get("my_cookie")
