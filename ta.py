@@ -3,7 +3,7 @@ from starlette.responses import JSONResponse, RedirectResponse, Response
 from starlette.routing import Mount, Route
 import uvicorn
 from pin import PinBlock
-from utils import RequestFields, wants_json, get_cookies
+from utils import RequestFields, is_json_client, get_cookies
 from starlette.templating import Jinja2Templates
 from starlette.staticfiles import StaticFiles
 import typesystem
@@ -31,7 +31,7 @@ async def homepage(request):
     return response
 
 async def submit(request):
-    if wants_json(request):
+    if is_json_client(request):
         try:
             b = await request.json()
         except Exception as e:
