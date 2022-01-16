@@ -99,4 +99,5 @@ if __name__ == "__main__":
     print(api.decrypt_workingkey())
     pinblock = api.reverse_pin("d122f06d07b3ef95")
     print(f"The reverse pin is: {pinblock}")
+    print(f"The pin block is: {api.encrypted_pin_block()}")
     
